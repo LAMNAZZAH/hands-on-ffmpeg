@@ -1,9 +1,7 @@
 const { spawn } = require("child_process");
 const { spawnOptions } = require('./spawnOptions');
 
-const options = spawnOptions();
-
-myParams = [
+/* myParams = [
   "-i ../../videos/video1.mp4",
   "-i ../../videos/video2.mp4",
   "-map 0:a -map 1:v",
@@ -11,8 +9,16 @@ myParams = [
   "",
   "../../videos/result.mp4"
 ];
+ */
 
-function Ffmpeg(params, options) {
+function Ffmpeg(media, output, params, addOptions) {
+  if (media) {
+    params.unshift(`-i ${media}`);
+  }
+  if (output) {
+    params.push(output);
+  }
+  const options = spawnOptions(addOptions);
   return new Promise((res, rej) => {
     const ffmpeg = spawn("ffmpeg", params, options);
     ffmpeg.stdout.on("data", (data) => {
@@ -33,13 +39,6 @@ function Ffmpeg(params, options) {
   });
 }
 
-async function turnOffAudio() {
-  try {
-    const result = await Ffmpeg(myParams, options);
-    console.log(result);
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-turnOffAudio();
+module.exports = {
+  Ffmpeg
+};
