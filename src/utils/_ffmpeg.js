@@ -1,14 +1,15 @@
 const { spawn } = require("child_process");
+const { spawnOptions } = require('./spawnOptions');
 
-let options = {
-  shell: true,
-};
+const options = spawnOptions();
 
-let params = [
-  "-i ../videos/video2.mp4 -y",
-  "-f lavfi -i color=c=red:s=1920x1080:r=24",
-  "-filter_complex [1:v][0:v]overlay=shortest=1:x='(main_w-overlay_w)/2':y='(main_h-overlay_h)/2':enable='between(t,0,4)'",
-  "-acodec copy ../videos/temp10.mp4",
+myParams = [
+  "-i ../../videos/video1.mp4",
+  "-i ../../videos/video2.mp4",
+  "-map 0:a -map 1:v",
+  "-c:v h264 -c:a aac",
+  "",
+  "../../videos/result.mp4"
 ];
 
 function Ffmpeg(params, options) {
@@ -32,6 +33,13 @@ function Ffmpeg(params, options) {
   });
 }
 
-Ffmpeg(params, options)
-  .then((mssg) => console.log(mssg))
-  .catch((err) => console.log(err));
+async function turnOffAudio() {
+  try {
+    const result = await Ffmpeg(myParams, options);
+    console.log(result);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+turnOffAudio();

@@ -11,7 +11,7 @@ params = [
   "-acodec copy ../videos/temp7.mp4",
 ];
 
-function resizeMedia(media) {
+function Ffmpeg(params, options) {
   return new Promise((res, rej) => {
     const ffmpeg = spawn("ffmpeg", params, options);
     ffmpeg.stdout.on("data", (data) => {
@@ -32,6 +32,6 @@ function resizeMedia(media) {
   });
 }
 
-resizeMedia("something")
+Ffmpeg(params, options)
   .then((mssg) => console.log(mssg))
   .catch((err) => console.log(err));

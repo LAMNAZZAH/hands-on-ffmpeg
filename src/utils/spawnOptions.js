@@ -6,4 +6,6 @@ const spawnOptions = (values) => {
     return params;
 }
 
-module.exports = spawnOptions;
+module.exports = {
+    spawnOptions
+};
