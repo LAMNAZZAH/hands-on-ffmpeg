@@ -1,16 +1,6 @@
 const { spawn } = require("child_process");
 const { spawnOptions } = require('./spawnOptions');
 
-/* myParams = [
-  "-i ../../videos/video1.mp4",
-  "-i ../../videos/video2.mp4",
-  "-map 0:a -map 1:v",
-  "-c:v h264 -c:a aac",
-  "",
-  "../../videos/result.mp4"
-];
- */
-
 function Ffmpeg(media, output, params, addOptions) {
   if (media) {
     params.unshift(`-i ${media}`);
